@@ -1,0 +1,54 @@
+<html>
+<script language="Javascript" src="jquery-1.7.2.min.js">
+</script>
+<script language="Javascript" src="js-epub.js">
+</script>
+<script language="Javascript" src="js-inflate.js">
+</script>
+<script language="Javascript" src="js-unzip.js">
+</script>
+<script language="Javascript" src="base64.js">
+</script>
+<script>
+<!--
+function showFirstPage(epub) {
+    // The spine lists all pages in correct order
+    var spine = epub.opf.spine[0];
+
+    // The manifest contains the href of the file
+    var href = epub.opf.manifest[spine]["href"];
+
+    // All the files are stored in here, indexed by href
+    var doc = epub.files[href];
+
+    // The doc is a DOMparser created DOM. You may want to
+    // work with a string version of the page contents.
+    var html = new XMLSerializer().serializeToString(doc);
+    $("#content")[0].contentDocument.write(html);
+}
+
+function processSteps(step, extras) {
+  console.log("STEP " + step);
+  if (step == 2) {
+    console.log("FILENAME " + extras);
+  }
+  if (step == 5) {
+    showFirstPage(epub);
+  }
+}
+
+function init() {
+jQuery.get("demo6.epub.b64",
+  function (data) {
+    var rawdata = atob(data);
+    epub = new JSEpub(rawdata);
+    epub.processInSteps(processSteps);
+  });
+}
+window.addEventListener("load", init, false);
+-->
+</script>
+<body>
+<iframe id="content"></iframe>
+</body>
+</html>
