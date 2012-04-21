@@ -81,7 +81,6 @@
 
         uncompressFile: function (compressedFile) {
             var data;
-	    console.log("FILE " + compressedFile.fileName);
             if (compressedFile.compressionMethod === 0) {
                 data = compressedFile.data;
             } else if (compressedFile.compressionMethod === 8) {
@@ -102,7 +101,6 @@
         },
 
         getOpfPathFromContainer: function () {
-	    console.log("getOpfPathFromContainer");
             var doc = this.xmlDocument(this.container);
             return doc
                 .getElementsByTagName("rootfile")[0]
@@ -110,7 +108,6 @@
         },
 
         readOpf: function (xml) {
-	    console.log("readOpf");
             var doc = this.xmlDocument(xml);
             
             var opf = {
@@ -232,7 +229,6 @@
         },
 
         postProcessHTML: function (href) {
-	    console.log("postProcessHTML");
             var xml = decodeURIComponent(escape(this.files[href]));
             var doc = this.xmlDocument(xml);
 
@@ -290,7 +286,6 @@
         },
 
         xmlDocument: function (xml) {
-	    console.log(xml);
             var doc = new DOMParser().parseFromString(xml, "text/xml");
 
             if (doc.childNodes[1] && doc.childNodes[1].nodeName === "parsererror") {

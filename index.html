@@ -11,9 +11,9 @@
 </script>
 <script>
 <!--
-function showFirstPage(epub) {
+function showPage(epub, page) {
     // The spine lists all pages in correct order
-    var spine = epub.opf.spine[0];
+    var spine = epub.opf.spine[page];
 
     // The manifest contains the href of the file
     var href = epub.opf.manifest[spine]["href"];
@@ -25,20 +25,17 @@ function showFirstPage(epub) {
     // work with a string version of the page contents.
     var html = new XMLSerializer().serializeToString(doc);
     $("#content")[0].contentDocument.write(html);
+    $("#content")[0].contentDocument.close();
 }
 
 function processSteps(step, extras) {
-  console.log("STEP " + step);
-  if (step == 2) {
-    console.log("FILENAME " + extras);
-  }
   if (step == 5) {
-    showFirstPage(epub);
+    showPage(epub, 0);
   }
 }
 
 function init() {
-jQuery.get("demo6.epub.b64",
+jQuery.get("milne-once-a-week.epub.b64",
   function (data) {
     var rawdata = atob(data);
     epub = new JSEpub(rawdata);
@@ -46,9 +43,11 @@ jQuery.get("demo6.epub.b64",
   });
 }
 window.addEventListener("load", init, false);
+page = 0;
 -->
 </script>
 <body>
-<iframe id="content"></iframe>
+<iframe id="content" width="800px" height="600px"></iframe>
+<input type="button" value="next" onclick="javascript:showPage(epub,++page);"/>
 </body>
 </html>

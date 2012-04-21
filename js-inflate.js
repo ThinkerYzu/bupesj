@@ -312,19 +312,26 @@
     }
 
     function zip_NEEDBITS(n) {
+	var byte;
         while(zip_bit_len < n) {
-            zip_bit_buf |= zip_GET_BYTE() << zip_bit_len;
+	    byte = zip_GET_BYTE();
+	    if (byte == -1)
+		break;
+            zip_bit_buf |= byte << zip_bit_len;
             zip_bit_len += 8;
         }
+	return zip_bit_len;
     }
 
     function zip_GETBITS(n) {
-        return zip_bit_buf & zip_MASK_BITS[n];
+	var bits = Math.min(n, zip_bit_len);
+        return zip_bit_buf & zip_MASK_BITS[bits];
     }
 
     function zip_DUMPBITS(n) {
-        zip_bit_buf >>= n;
-        zip_bit_len -= n;
+	var bits = Math.min(n, zip_bit_len);
+        zip_bit_buf >>= bits;
+        zip_bit_len -= bits;
     }
 
     function zip_inflate_codes(buff, off, size) {
@@ -340,7 +347,10 @@
         // inflate the coded data
         n = 0;
         for(;;) {			// do until end of block
-            zip_NEEDBITS(zip_bl);
+            if (zip_NEEDBITS(zip_bl) < zip_bl) {
+		break;
+	    }
+	    
             t = zip_tl.list[zip_GETBITS(zip_bl)];
             e = t.e;
             while(e > 16) {
