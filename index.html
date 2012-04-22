@@ -28,6 +28,11 @@ function showPage(epub, page) {
     $("#content")[0].contentDocument.close();
 }
 
+function showNextPage() {
+  page = Math.min(page + 1, epub.opf.spine.length - 1);
+  showPage(epub, page);
+}
+
 function processSteps(step, extras) {
   if (step == 5) {
     showPage(epub, 0);
@@ -48,6 +53,6 @@ page = 0;
 </script>
 <body>
 <iframe id="content" width="800px" height="600px"></iframe>
-<input type="button" value="next" onclick="javascript:showPage(epub,++page);"/>
+<input type="button" value="next" onclick="javascript:showNextPage();"/>
 </body>
 </html>

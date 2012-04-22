@@ -347,10 +347,7 @@
         // inflate the coded data
         n = 0;
         for(;;) {			// do until end of block
-            if (zip_NEEDBITS(zip_bl) < zip_bl) {
-		break;
-	    }
-	    
+	    zip_NEEDBITS(zip_bl);
             t = zip_tl.list[zip_GETBITS(zip_bl)];
             e = t.e;
             while(e > 16) {
